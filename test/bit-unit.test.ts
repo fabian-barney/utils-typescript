@@ -39,7 +39,18 @@ const byteFactors: Record<ByteUnitName, number> = {
   PB: 10 ** 15
 };
 
-const invalidWordSizes = [0, -8, 0.5, Number.NaN, Number.POSITIVE_INFINITY];
+const invalidBitsPerByteValues = [
+  0,
+  -8,
+  0.5,
+  Number.NaN,
+  Number.POSITIVE_INFINITY
+];
+const invalidInputValues = [
+  Number.NaN,
+  Number.POSITIVE_INFINITY,
+  Number.NEGATIVE_INFINITY
+];
 
 function bitsPerUnit(unit: BitUnitValue): number {
   return bitFactors[unit.name];
@@ -86,10 +97,10 @@ describe("BitUnit", () => {
 
       expect(target.convert(value, source)).toBeCloseTo(expected, DELTA);
 
-      const wordSize = 24;
-      const wordBits = bytes * wordSize;
-      expect(target.convert(value, source, wordSize)).toBeCloseTo(
-        wordBits / bitsPerUnit(target),
+      const bitsPerByte = 24;
+      const customBits = bytes * bitsPerByte;
+      expect(target.convert(value, source, bitsPerByte)).toBeCloseTo(
+        customBits / bitsPerUnit(target),
         DELTA
       );
     }
@@ -109,9 +120,9 @@ describe("BitUnit", () => {
 
       expect(target.convert(value, source)).toBeCloseTo(expected, DELTA);
 
-      const wordSize = 32;
-      const customBytes = bits / wordSize;
-      expect(target.convert(value, source, wordSize)).toBeCloseTo(
+      const bitsPerByte = 32;
+      const customBytes = bits / bitsPerByte;
+      expect(target.convert(value, source, bitsPerByte)).toBeCloseTo(
         customBytes / bytesPerUnit(target),
         DELTA
       );
@@ -122,11 +133,11 @@ describe("BitUnit", () => {
     const value = 2;
     const bits = value * bitsPerUnit(unit);
     const bytes = bits / 8;
-    const wordSize = 10;
-    const wordBytes = bits / wordSize;
+    const bitsPerByte = 10;
+    const customBytes = bits / bitsPerByte;
 
     expect(unit.toBytes(value)).toBeCloseTo(bytes, DELTA);
-    expect(unit.toBytes(value, wordSize)).toBeCloseTo(wordBytes, DELTA);
+    expect(unit.toBytes(value, bitsPerByte)).toBeCloseTo(customBytes, DELTA);
 
     expect(unit.toKiB(value)).toBeCloseTo(bytes / byteFactors.KIB, DELTA);
     expect(unit.toMiB(value)).toBeCloseTo(bytes / byteFactors.MIB, DELTA);
@@ -134,24 +145,24 @@ describe("BitUnit", () => {
     expect(unit.toTiB(value)).toBeCloseTo(bytes / byteFactors.TIB, DELTA);
     expect(unit.toPiB(value)).toBeCloseTo(bytes / byteFactors.PIB, DELTA);
 
-    expect(unit.toKiB(value, wordSize)).toBeCloseTo(
-      wordBytes / byteFactors.KIB,
+    expect(unit.toKiB(value, bitsPerByte)).toBeCloseTo(
+      customBytes / byteFactors.KIB,
       DELTA
     );
-    expect(unit.toMiB(value, wordSize)).toBeCloseTo(
-      wordBytes / byteFactors.MIB,
+    expect(unit.toMiB(value, bitsPerByte)).toBeCloseTo(
+      customBytes / byteFactors.MIB,
       DELTA
     );
-    expect(unit.toGiB(value, wordSize)).toBeCloseTo(
-      wordBytes / byteFactors.GIB,
+    expect(unit.toGiB(value, bitsPerByte)).toBeCloseTo(
+      customBytes / byteFactors.GIB,
       DELTA
     );
-    expect(unit.toTiB(value, wordSize)).toBeCloseTo(
-      wordBytes / byteFactors.TIB,
+    expect(unit.toTiB(value, bitsPerByte)).toBeCloseTo(
+      customBytes / byteFactors.TIB,
       DELTA
     );
-    expect(unit.toPiB(value, wordSize)).toBeCloseTo(
-      wordBytes / byteFactors.PIB,
+    expect(unit.toPiB(value, bitsPerByte)).toBeCloseTo(
+      customBytes / byteFactors.PIB,
       DELTA
     );
 
@@ -161,24 +172,24 @@ describe("BitUnit", () => {
     expect(unit.toTB(value)).toBeCloseTo(bytes / byteFactors.TB, DELTA);
     expect(unit.toPB(value)).toBeCloseTo(bytes / byteFactors.PB, DELTA);
 
-    expect(unit.toKB(value, wordSize)).toBeCloseTo(
-      wordBytes / byteFactors.KB,
+    expect(unit.toKB(value, bitsPerByte)).toBeCloseTo(
+      customBytes / byteFactors.KB,
       DELTA
     );
-    expect(unit.toMB(value, wordSize)).toBeCloseTo(
-      wordBytes / byteFactors.MB,
+    expect(unit.toMB(value, bitsPerByte)).toBeCloseTo(
+      customBytes / byteFactors.MB,
       DELTA
     );
-    expect(unit.toGB(value, wordSize)).toBeCloseTo(
-      wordBytes / byteFactors.GB,
+    expect(unit.toGB(value, bitsPerByte)).toBeCloseTo(
+      customBytes / byteFactors.GB,
       DELTA
     );
-    expect(unit.toTB(value, wordSize)).toBeCloseTo(
-      wordBytes / byteFactors.TB,
+    expect(unit.toTB(value, bitsPerByte)).toBeCloseTo(
+      customBytes / byteFactors.TB,
       DELTA
     );
-    expect(unit.toPB(value, wordSize)).toBeCloseTo(
-      wordBytes / byteFactors.PB,
+    expect(unit.toPB(value, bitsPerByte)).toBeCloseTo(
+      customBytes / byteFactors.PB,
       DELTA
     );
   });
@@ -211,28 +222,46 @@ describe("BitUnit", () => {
 
   test.each(BitUnit.values())("$name rejects negative input values", (unit) => {
     expect(() => unit.toBits(-1)).toThrowError(
-      new RangeError("value must be non-negative")
+      new RangeError("value must be a non-negative finite number")
     );
     expect(() => unit.toBytes(-1)).toThrowError(
-      new RangeError("value must be non-negative")
+      new RangeError("value must be a non-negative finite number")
     );
     expect(() => unit.convert(-1, BitUnit.BIT)).toThrowError(
-      new RangeError("value must be non-negative")
+      new RangeError("value must be a non-negative finite number")
     );
     expect(() => unit.convert(-1, ByteUnit.BYTE)).toThrowError(
-      new RangeError("value must be non-negative")
+      new RangeError("value must be a non-negative finite number")
     );
   });
 
-  test.each(invalidWordSizes)(
-    "cross-family bit conversions reject invalid wordSize %p",
-    (wordSize) => {
-      expect(() => BitUnit.MBIT.toBytes(1, wordSize)).toThrowError(
-        new RangeError("wordSize must be a positive integer")
+  test.each(invalidInputValues)(
+    "bit entry points reject non-finite input value %p",
+    (value) => {
+      expect(() => BitUnit.MBIT.toBits(value)).toThrowError(
+        new RangeError("value must be a non-negative finite number")
       );
-      expect(() => BitUnit.MBIT.convert(1, ByteUnit.MB, wordSize)).toThrowError(
-        new RangeError("wordSize must be a positive integer")
+      expect(() => BitUnit.MBIT.toBytes(value)).toThrowError(
+        new RangeError("value must be a non-negative finite number")
       );
+      expect(() => BitUnit.MBIT.convert(value, BitUnit.KBIT)).toThrowError(
+        new RangeError("value must be a non-negative finite number")
+      );
+      expect(() => BitUnit.MBIT.convert(value, ByteUnit.MB)).toThrowError(
+        new RangeError("value must be a non-negative finite number")
+      );
+    }
+  );
+
+  test.each(invalidBitsPerByteValues)(
+    "cross-family bit conversions reject invalid bitsPerByte %p",
+    (bitsPerByte) => {
+      expect(() => BitUnit.MBIT.toBytes(1, bitsPerByte)).toThrowError(
+        new RangeError("bitsPerByte must be a positive integer")
+      );
+      expect(() =>
+        BitUnit.MBIT.convert(1, ByteUnit.MB, bitsPerByte)
+      ).toThrowError(new RangeError("bitsPerByte must be a positive integer"));
     }
   );
 

@@ -1,4 +1,4 @@
-const DEFAULT_WORD_SIZE = 8;
+const DEFAULT_BITS_PER_BYTE = 8;
 
 const BYTE_UNIT_NAMES = [
   "BYTE",
@@ -74,14 +74,14 @@ function safeMultiply(value: number, multiplier: number): number {
 }
 
 function validateValue(value: number): void {
-  if (value < 0) {
-    throw new RangeError("value must be non-negative");
+  if (!Number.isFinite(value) || value < 0) {
+    throw new RangeError("value must be a non-negative finite number");
   }
 }
 
-function validateWordSize(wordSize: number): void {
-  if (!Number.isInteger(wordSize) || wordSize <= 0) {
-    throw new RangeError("wordSize must be a positive integer");
+function validateBitsPerByte(bitsPerByte: number): void {
+  if (!Number.isInteger(bitsPerByte) || bitsPerByte <= 0) {
+    throw new RangeError("bitsPerByte must be a positive integer");
   }
 }
 
@@ -107,19 +107,19 @@ export interface ByteUnitValue {
   toGB(value: number): number;
   toTB(value: number): number;
   toPB(value: number): number;
-  toBits(value: number, wordSize?: number): number;
-  toKibit(value: number, wordSize?: number): number;
-  toMibit(value: number, wordSize?: number): number;
-  toGibit(value: number, wordSize?: number): number;
-  toTibit(value: number, wordSize?: number): number;
-  toPibit(value: number, wordSize?: number): number;
-  toKbit(value: number, wordSize?: number): number;
-  toMbit(value: number, wordSize?: number): number;
-  toGbit(value: number, wordSize?: number): number;
-  toTbit(value: number, wordSize?: number): number;
-  toPbit(value: number, wordSize?: number): number;
+  toBits(value: number, bitsPerByte?: number): number;
+  toKibit(value: number, bitsPerByte?: number): number;
+  toMibit(value: number, bitsPerByte?: number): number;
+  toGibit(value: number, bitsPerByte?: number): number;
+  toTibit(value: number, bitsPerByte?: number): number;
+  toPibit(value: number, bitsPerByte?: number): number;
+  toKbit(value: number, bitsPerByte?: number): number;
+  toMbit(value: number, bitsPerByte?: number): number;
+  toGbit(value: number, bitsPerByte?: number): number;
+  toTbit(value: number, bitsPerByte?: number): number;
+  toPbit(value: number, bitsPerByte?: number): number;
   convert(value: number, unit: ByteUnitValue): number;
-  convert(value: number, unit: BitUnitValue, wordSize?: number): number;
+  convert(value: number, unit: BitUnitValue, bitsPerByte?: number): number;
 }
 
 export interface BitUnitValue {
@@ -136,19 +136,19 @@ export interface BitUnitValue {
   toGbit(value: number): number;
   toTbit(value: number): number;
   toPbit(value: number): number;
-  toBytes(value: number, wordSize?: number): number;
-  toKiB(value: number, wordSize?: number): number;
-  toMiB(value: number, wordSize?: number): number;
-  toGiB(value: number, wordSize?: number): number;
-  toTiB(value: number, wordSize?: number): number;
-  toPiB(value: number, wordSize?: number): number;
-  toKB(value: number, wordSize?: number): number;
-  toMB(value: number, wordSize?: number): number;
-  toGB(value: number, wordSize?: number): number;
-  toTB(value: number, wordSize?: number): number;
-  toPB(value: number, wordSize?: number): number;
+  toBytes(value: number, bitsPerByte?: number): number;
+  toKiB(value: number, bitsPerByte?: number): number;
+  toMiB(value: number, bitsPerByte?: number): number;
+  toGiB(value: number, bitsPerByte?: number): number;
+  toTiB(value: number, bitsPerByte?: number): number;
+  toPiB(value: number, bitsPerByte?: number): number;
+  toKB(value: number, bitsPerByte?: number): number;
+  toMB(value: number, bitsPerByte?: number): number;
+  toGB(value: number, bitsPerByte?: number): number;
+  toTB(value: number, bitsPerByte?: number): number;
+  toPB(value: number, bitsPerByte?: number): number;
   convert(value: number, unit: BitUnitValue): number;
-  convert(value: number, unit: ByteUnitValue, wordSize?: number): number;
+  convert(value: number, unit: ByteUnitValue, bitsPerByte?: number): number;
 }
 
 export interface ByteUnitRegistry extends Record<ByteUnitName, ByteUnitValue> {
@@ -214,62 +214,62 @@ class ByteUnitImpl implements ByteUnitValue {
     return this.toBytes(value) / BYTE_FACTORS.PB;
   }
 
-  toBits(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return BitUnit.BIT.convert(value, this, wordSize);
+  toBits(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return BitUnit.BIT.convert(value, this, bitsPerByte);
   }
 
-  toKibit(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return BitUnit.KIBIT.convert(value, this, wordSize);
+  toKibit(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return BitUnit.KIBIT.convert(value, this, bitsPerByte);
   }
 
-  toMibit(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return BitUnit.MIBIT.convert(value, this, wordSize);
+  toMibit(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return BitUnit.MIBIT.convert(value, this, bitsPerByte);
   }
 
-  toGibit(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return BitUnit.GIBIT.convert(value, this, wordSize);
+  toGibit(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return BitUnit.GIBIT.convert(value, this, bitsPerByte);
   }
 
-  toTibit(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return BitUnit.TIBIT.convert(value, this, wordSize);
+  toTibit(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return BitUnit.TIBIT.convert(value, this, bitsPerByte);
   }
 
-  toPibit(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return BitUnit.PIBIT.convert(value, this, wordSize);
+  toPibit(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return BitUnit.PIBIT.convert(value, this, bitsPerByte);
   }
 
-  toKbit(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return BitUnit.KBIT.convert(value, this, wordSize);
+  toKbit(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return BitUnit.KBIT.convert(value, this, bitsPerByte);
   }
 
-  toMbit(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return BitUnit.MBIT.convert(value, this, wordSize);
+  toMbit(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return BitUnit.MBIT.convert(value, this, bitsPerByte);
   }
 
-  toGbit(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return BitUnit.GBIT.convert(value, this, wordSize);
+  toGbit(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return BitUnit.GBIT.convert(value, this, bitsPerByte);
   }
 
-  toTbit(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return BitUnit.TBIT.convert(value, this, wordSize);
+  toTbit(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return BitUnit.TBIT.convert(value, this, bitsPerByte);
   }
 
-  toPbit(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return BitUnit.PBIT.convert(value, this, wordSize);
+  toPbit(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return BitUnit.PBIT.convert(value, this, bitsPerByte);
   }
 
   convert(value: number, unit: ByteUnitValue): number;
-  convert(value: number, unit: BitUnitValue, wordSize?: number): number;
+  convert(value: number, unit: BitUnitValue, bitsPerByte?: number): number;
   convert(
     value: number,
     unit: ByteUnitValue | BitUnitValue,
-    wordSize = DEFAULT_WORD_SIZE
+    bitsPerByte = DEFAULT_BITS_PER_BYTE
   ): number {
     validateValue(value);
 
     if (unit.family === "bit") {
-      validateWordSize(wordSize);
-      const bytes = unit.toBits(value) / wordSize;
+      validateBitsPerByte(bitsPerByte);
+      const bytes = unit.toBits(value) / bitsPerByte;
       return this.convert(bytes, ByteUnit.BYTE);
     }
 
@@ -330,62 +330,62 @@ class BitUnitImpl implements BitUnitValue {
     return this.toBits(value) / BIT_FACTORS.PBIT;
   }
 
-  toBytes(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return ByteUnit.BYTE.convert(value, this, wordSize);
+  toBytes(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return ByteUnit.BYTE.convert(value, this, bitsPerByte);
   }
 
-  toKiB(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return ByteUnit.KIB.convert(value, this, wordSize);
+  toKiB(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return ByteUnit.KIB.convert(value, this, bitsPerByte);
   }
 
-  toMiB(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return ByteUnit.MIB.convert(value, this, wordSize);
+  toMiB(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return ByteUnit.MIB.convert(value, this, bitsPerByte);
   }
 
-  toGiB(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return ByteUnit.GIB.convert(value, this, wordSize);
+  toGiB(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return ByteUnit.GIB.convert(value, this, bitsPerByte);
   }
 
-  toTiB(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return ByteUnit.TIB.convert(value, this, wordSize);
+  toTiB(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return ByteUnit.TIB.convert(value, this, bitsPerByte);
   }
 
-  toPiB(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return ByteUnit.PIB.convert(value, this, wordSize);
+  toPiB(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return ByteUnit.PIB.convert(value, this, bitsPerByte);
   }
 
-  toKB(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return ByteUnit.KB.convert(value, this, wordSize);
+  toKB(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return ByteUnit.KB.convert(value, this, bitsPerByte);
   }
 
-  toMB(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return ByteUnit.MB.convert(value, this, wordSize);
+  toMB(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return ByteUnit.MB.convert(value, this, bitsPerByte);
   }
 
-  toGB(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return ByteUnit.GB.convert(value, this, wordSize);
+  toGB(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return ByteUnit.GB.convert(value, this, bitsPerByte);
   }
 
-  toTB(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return ByteUnit.TB.convert(value, this, wordSize);
+  toTB(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return ByteUnit.TB.convert(value, this, bitsPerByte);
   }
 
-  toPB(value: number, wordSize = DEFAULT_WORD_SIZE): number {
-    return ByteUnit.PB.convert(value, this, wordSize);
+  toPB(value: number, bitsPerByte = DEFAULT_BITS_PER_BYTE): number {
+    return ByteUnit.PB.convert(value, this, bitsPerByte);
   }
 
   convert(value: number, unit: BitUnitValue): number;
-  convert(value: number, unit: ByteUnitValue, wordSize?: number): number;
+  convert(value: number, unit: ByteUnitValue, bitsPerByte?: number): number;
   convert(
     value: number,
     unit: BitUnitValue | ByteUnitValue,
-    wordSize = DEFAULT_WORD_SIZE
+    bitsPerByte = DEFAULT_BITS_PER_BYTE
   ): number {
     validateValue(value);
 
     if (unit.family === "byte") {
-      validateWordSize(wordSize);
-      const bits = safeMultiply(unit.toBytes(value), wordSize);
+      validateBitsPerByte(bitsPerByte);
+      const bits = safeMultiply(unit.toBytes(value), bitsPerByte);
       return this.convert(bits, BitUnit.BIT);
     }
 
