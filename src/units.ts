@@ -67,10 +67,22 @@ function safeMultiply(value: number, multiplier: number): number {
   }
 
   if (value < -limit) {
-    return Number.MIN_VALUE;
+    return -Number.MAX_VALUE;
   }
 
   return value * multiplier;
+}
+
+function validateValue(value: number): void {
+  if (value < 0) {
+    throw new RangeError("value must be non-negative");
+  }
+}
+
+function validateWordSize(wordSize: number): void {
+  if (!Number.isInteger(wordSize) || wordSize <= 0) {
+    throw new RangeError("wordSize must be a positive integer");
+  }
 }
 
 function isByteUnitName(name: string): name is ByteUnitName {
@@ -158,6 +170,7 @@ class ByteUnitImpl implements ByteUnitValue {
   ) {}
 
   toBytes(value: number): number {
+    validateValue(value);
     return safeMultiply(value, this.factor);
   }
 
@@ -252,7 +265,10 @@ class ByteUnitImpl implements ByteUnitValue {
     unit: ByteUnitValue | BitUnitValue,
     wordSize = DEFAULT_WORD_SIZE
   ): number {
+    validateValue(value);
+
     if (unit.family === "bit") {
+      validateWordSize(wordSize);
       const bytes = unit.toBits(value) / wordSize;
       return this.convert(bytes, ByteUnit.BYTE);
     }
@@ -270,6 +286,7 @@ class BitUnitImpl implements BitUnitValue {
   ) {}
 
   toBits(value: number): number {
+    validateValue(value);
     return safeMultiply(value, this.factor);
   }
 
@@ -364,7 +381,10 @@ class BitUnitImpl implements BitUnitValue {
     unit: BitUnitValue | ByteUnitValue,
     wordSize = DEFAULT_WORD_SIZE
   ): number {
+    validateValue(value);
+
     if (unit.family === "byte") {
+      validateWordSize(wordSize);
       const bits = safeMultiply(unit.toBytes(value), wordSize);
       return this.convert(bits, BitUnit.BIT);
     }
@@ -374,31 +394,31 @@ class BitUnitImpl implements BitUnitValue {
 }
 
 const byteUnits: Record<ByteUnitName, ByteUnitValue> = {
-  BYTE: new ByteUnitImpl("BYTE", BYTE_FACTORS.BYTE),
-  KIB: new ByteUnitImpl("KIB", BYTE_FACTORS.KIB),
-  MIB: new ByteUnitImpl("MIB", BYTE_FACTORS.MIB),
-  GIB: new ByteUnitImpl("GIB", BYTE_FACTORS.GIB),
-  TIB: new ByteUnitImpl("TIB", BYTE_FACTORS.TIB),
-  PIB: new ByteUnitImpl("PIB", BYTE_FACTORS.PIB),
-  KB: new ByteUnitImpl("KB", BYTE_FACTORS.KB),
-  MB: new ByteUnitImpl("MB", BYTE_FACTORS.MB),
-  GB: new ByteUnitImpl("GB", BYTE_FACTORS.GB),
-  TB: new ByteUnitImpl("TB", BYTE_FACTORS.TB),
-  PB: new ByteUnitImpl("PB", BYTE_FACTORS.PB)
+  BYTE: Object.freeze(new ByteUnitImpl("BYTE", BYTE_FACTORS.BYTE)),
+  KIB: Object.freeze(new ByteUnitImpl("KIB", BYTE_FACTORS.KIB)),
+  MIB: Object.freeze(new ByteUnitImpl("MIB", BYTE_FACTORS.MIB)),
+  GIB: Object.freeze(new ByteUnitImpl("GIB", BYTE_FACTORS.GIB)),
+  TIB: Object.freeze(new ByteUnitImpl("TIB", BYTE_FACTORS.TIB)),
+  PIB: Object.freeze(new ByteUnitImpl("PIB", BYTE_FACTORS.PIB)),
+  KB: Object.freeze(new ByteUnitImpl("KB", BYTE_FACTORS.KB)),
+  MB: Object.freeze(new ByteUnitImpl("MB", BYTE_FACTORS.MB)),
+  GB: Object.freeze(new ByteUnitImpl("GB", BYTE_FACTORS.GB)),
+  TB: Object.freeze(new ByteUnitImpl("TB", BYTE_FACTORS.TB)),
+  PB: Object.freeze(new ByteUnitImpl("PB", BYTE_FACTORS.PB))
 };
 
 const bitUnits: Record<BitUnitName, BitUnitValue> = {
-  BIT: new BitUnitImpl("BIT", BIT_FACTORS.BIT),
-  KIBIT: new BitUnitImpl("KIBIT", BIT_FACTORS.KIBIT),
-  MIBIT: new BitUnitImpl("MIBIT", BIT_FACTORS.MIBIT),
-  GIBIT: new BitUnitImpl("GIBIT", BIT_FACTORS.GIBIT),
-  TIBIT: new BitUnitImpl("TIBIT", BIT_FACTORS.TIBIT),
-  PIBIT: new BitUnitImpl("PIBIT", BIT_FACTORS.PIBIT),
-  KBIT: new BitUnitImpl("KBIT", BIT_FACTORS.KBIT),
-  MBIT: new BitUnitImpl("MBIT", BIT_FACTORS.MBIT),
-  GBIT: new BitUnitImpl("GBIT", BIT_FACTORS.GBIT),
-  TBIT: new BitUnitImpl("TBIT", BIT_FACTORS.TBIT),
-  PBIT: new BitUnitImpl("PBIT", BIT_FACTORS.PBIT)
+  BIT: Object.freeze(new BitUnitImpl("BIT", BIT_FACTORS.BIT)),
+  KIBIT: Object.freeze(new BitUnitImpl("KIBIT", BIT_FACTORS.KIBIT)),
+  MIBIT: Object.freeze(new BitUnitImpl("MIBIT", BIT_FACTORS.MIBIT)),
+  GIBIT: Object.freeze(new BitUnitImpl("GIBIT", BIT_FACTORS.GIBIT)),
+  TIBIT: Object.freeze(new BitUnitImpl("TIBIT", BIT_FACTORS.TIBIT)),
+  PIBIT: Object.freeze(new BitUnitImpl("PIBIT", BIT_FACTORS.PIBIT)),
+  KBIT: Object.freeze(new BitUnitImpl("KBIT", BIT_FACTORS.KBIT)),
+  MBIT: Object.freeze(new BitUnitImpl("MBIT", BIT_FACTORS.MBIT)),
+  GBIT: Object.freeze(new BitUnitImpl("GBIT", BIT_FACTORS.GBIT)),
+  TBIT: Object.freeze(new BitUnitImpl("TBIT", BIT_FACTORS.TBIT)),
+  PBIT: Object.freeze(new BitUnitImpl("PBIT", BIT_FACTORS.PBIT))
 };
 
 const BYTE_VALUES = BYTE_UNIT_NAMES.map((name) => byteUnits[name]);
@@ -431,4 +451,3 @@ export const BitUnit: BitUnitRegistry = Object.freeze({
     return bitUnits[name];
   }
 });
-

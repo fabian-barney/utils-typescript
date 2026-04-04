@@ -67,9 +67,10 @@ const bits = ByteUnit.KIB.toBits(4, 16);
 
 - Conversions return `number`.
 - Byte-to-bit conversions assume an 8-bit byte by default.
+- Methods throw `RangeError` for negative values and invalid `wordSize`
+  arguments.
 - Multiplication-heavy conversion paths include overflow guards.
 
 ## License
 
 Apache License 2.0. See `LICENSE`.
-

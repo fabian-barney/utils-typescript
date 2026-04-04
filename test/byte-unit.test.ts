@@ -39,6 +39,8 @@ const bitFactors: Record<BitUnitName, number> = {
   PBIT: 10 ** 15
 };
 
+const invalidWordSizes = [0, -8, 0.5, Number.NaN, Number.POSITIVE_INFINITY];
+
 function bytesPerUnit(unit: ByteUnitValue): number {
   return byteFactors[unit.name];
 }
@@ -207,8 +209,42 @@ describe("ByteUnit", () => {
     );
   });
 
-  test("overflow-heavy byte conversions clamp like the Java implementation", () => {
+  test.each(ByteUnit.values())("$name rejects negative input values", (unit) => {
+    expect(() => unit.toBytes(-1)).toThrowError(
+      new RangeError("value must be non-negative")
+    );
+    expect(() => unit.toBits(-1)).toThrowError(
+      new RangeError("value must be non-negative")
+    );
+    expect(() => unit.convert(-1, ByteUnit.BYTE)).toThrowError(
+      new RangeError("value must be non-negative")
+    );
+    expect(() => unit.convert(-1, BitUnit.BIT)).toThrowError(
+      new RangeError("value must be non-negative")
+    );
+  });
+
+  test.each(invalidWordSizes)(
+    "cross-family byte conversions reject invalid wordSize %p",
+    (wordSize) => {
+      expect(() => ByteUnit.MB.toBits(1, wordSize)).toThrowError(
+        new RangeError("wordSize must be a positive integer")
+      );
+      expect(() => ByteUnit.MB.convert(1, BitUnit.MBIT, wordSize)).toThrowError(
+        new RangeError("wordSize must be a positive integer")
+      );
+    }
+  );
+
+  test("byte units are frozen singletons", () => {
+    expect(ByteUnit.values().every((unit) => Object.isFrozen(unit))).toBe(true);
+    expect(() => {
+      (ByteUnit.BYTE as unknown as { name: string }).name = "BROKEN";
+    }).toThrow(TypeError);
+    expect(ByteUnit.BYTE.name).toBe("BYTE");
+  });
+
+  test("overflow-heavy positive byte conversions still saturate", () => {
     expect(ByteUnit.PB.toBytes(Number.MAX_VALUE)).toBe(Number.MAX_VALUE);
-    expect(ByteUnit.PB.toBytes(-Number.MAX_VALUE)).toBe(Number.MIN_VALUE);
   });
 });
