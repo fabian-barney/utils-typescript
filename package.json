@@ -36,6 +36,7 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "cognitive-typescript-check": "node ./scripts/run-cognitive-typescript-gate.mjs src",
     "prepack": "npm run build",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
