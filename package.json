@@ -24,6 +24,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "packageManager": "npm@11.6.2",
   "engines": {
     "node": ">=24"
   },
@@ -36,15 +37,15 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "crap-typescript-check": "npm run build && vitest run --config vitest.crap.config.ts",
     "cognitive-typescript-check": "node ./scripts/run-cognitive-typescript-gate.mjs src",
     "prepack": "npm run build",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit",
-    "pack:check": "npm pack --json --dry-run --ignore-scripts",
-    "verify": "npm run typecheck && npm run test && npm run build",
-    "quality-gate": "npm run typecheck && npm run build && npm run pack:check"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@barney-media/crap-typescript-vitest": "^0.2.2",
+    "@vitest/coverage-v8": "^4.1.2",
     "tsup": "^8.5.1",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"

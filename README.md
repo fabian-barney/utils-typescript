@@ -15,12 +15,22 @@ It includes:
 - Node.js 24 or newer
 - npm 11 or newer
 
-## Build
+## Build and Test
 
 ```bash
-npm install
-npm run verify
+npm ci
+npm run typecheck
+npm run build
+npm test
+npm run cognitive-typescript-check
+npm run crap-typescript-check
+npm pack --json --dry-run --ignore-scripts
 ```
+
+`npm run cognitive-typescript-check` runs the repository through the published
+`@barney-media/cognitive-typescript` gate for the sources under `src/`.
+`npm run crap-typescript-check` runs the repository through a CRAP gate using
+the published Vitest adapter for the sources under `src/`.
 
 ## Usage
 
