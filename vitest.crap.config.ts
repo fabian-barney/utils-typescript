@@ -4,6 +4,9 @@ import baseConfig from "./vitest.config";
 
 export default withCrapTypescriptVitest(baseConfig, {
   changedOnly: false,
+  failuresOnly: true,
+  format: "text",
+  junit: false,
   packageManager: "npm",
   paths: ["src"],
   projectRoot: process.cwd()
