@@ -17,7 +17,6 @@ concurrency:
 
 jobs:
   build:
-    name: Build and Test
     if: ${{ github.event.pull_request.draft == false }}
     runs-on: ubuntu-latest
 
@@ -37,21 +36,106 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run typecheck
-        run: npm run typecheck
-
-      - name: Build package
+      - name: Build
         run: npm run build
 
-      - name: Run tests
+      - name: Upload dependencies
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-modules
+          path: node_modules
+          if-no-files-found: error
+
+      - name: Upload build outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          if-no-files-found: error
+
+  test-unit:
+    name: test / unit
+    if: ${{ github.event.pull_request.draft == false }}
+    needs:
+      - build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Set up npm 11.14.1
+        run: npm install --global npm@11.14.1
+
+      - name: Download dependencies
+        uses: actions/download-artifact@v4
+        with:
+          name: node-modules
+          path: node_modules
+
+      - name: Download build outputs
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Run unit tests
         run: npm test
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage
+          if-no-files-found: error
+
+  package:
+    if: ${{ github.event.pull_request.draft == false }}
+    needs:
+      - build
+      - test-unit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Set up npm 11.14.1
+        run: npm install --global npm@11.14.1
+
+      - name: Download dependencies
+        uses: actions/download-artifact@v4
+        with:
+          name: node-modules
+          path: node_modules
+
+      - name: Download build outputs
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
 
       - name: Check package contents
         run: npm pack --json --dry-run --ignore-scripts
 
-  cognitive-typescript-gate:
-    name: cognitive-typescript Gate
+  quality-crap-utils-typescript:
+    name: verify / quality-crap-utils-typescript
     if: ${{ github.event.pull_request.draft == false }}
+    needs:
+      - build
+      - test-unit
     runs-on: ubuntu-latest
 
     steps:
@@ -67,32 +151,59 @@ jobs:
       - name: Set up npm 11.14.1
         run: npm install --global npm@11.14.1
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run cognitive-typescript gate
-        run: npm run cognitive-typescript-check
-
-  crap-typescript-gate:
-    name: crap-typescript Gate
-    if: ${{ github.event.pull_request.draft == false }}
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Set up Node 24
-        uses: actions/setup-node@v6
+      - name: Download dependencies
+        uses: actions/download-artifact@v4
         with:
-          node-version: "24"
-          cache: npm
+          name: node-modules
+          path: node_modules
 
-      - name: Set up npm 11.14.1
-        run: npm install --global npm@11.14.1
+      - name: Download build outputs
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Download coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage
+          path: coverage
 
       - name: Run crap-typescript gate
         run: npm run crap-typescript-check
+
+  quality-cognitive-utils-typescript:
+    name: verify / quality-cognitive-utils-typescript
+    if: ${{ github.event.pull_request.draft == false }}
+    needs:
+      - build
+      - test-unit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Set up npm 11.14.1
+        run: npm install --global npm@11.14.1
+
+      - name: Download dependencies
+        uses: actions/download-artifact@v4
+        with:
+          name: node-modules
+          path: node_modules
+
+      - name: Download build outputs
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Run cognitive-typescript gate
+        run: npm run cognitive-typescript-check
