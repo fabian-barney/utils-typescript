@@ -30,8 +30,8 @@ jobs:
           node-version: "24"
           cache: npm
 
-      - name: Set up npm 11.14.1
-        run: npm install --global npm@11.14.1
+      - name: Set up npm 11.15.0
+        run: npm install --global npm@11.15.0
 
       - name: Install dependencies
         run: npm ci
@@ -43,7 +43,7 @@ jobs:
         run: npm run typecheck
 
       - name: Upload build outputs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist
@@ -66,14 +66,14 @@ jobs:
           node-version: "24"
           cache: npm
 
-      - name: Set up npm 11.14.1
-        run: npm install --global npm@11.14.1
+      - name: Set up npm 11.15.0
+        run: npm install --global npm@11.15.0
 
       - name: Install dependencies
         run: npm ci
 
       - name: Download build outputs
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: dist
           path: dist
@@ -82,7 +82,7 @@ jobs:
         run: npm test
 
       - name: Upload coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage
           path: coverage
@@ -105,14 +105,14 @@ jobs:
           node-version: "24"
           cache: npm
 
-      - name: Set up npm 11.14.1
-        run: npm install --global npm@11.14.1
+      - name: Set up npm 11.15.0
+        run: npm install --global npm@11.15.0
 
       - name: Install dependencies
         run: npm ci
 
       - name: Download build outputs
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: dist
           path: dist
@@ -138,20 +138,20 @@ jobs:
           node-version: "24"
           cache: npm
 
-      - name: Set up npm 11.14.1
-        run: npm install --global npm@11.14.1
+      - name: Set up npm 11.15.0
+        run: npm install --global npm@11.15.0
 
       - name: Install dependencies
         run: npm ci
 
       - name: Download build outputs
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: dist
           path: dist
 
       - name: Download coverage
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: coverage
           path: coverage
@@ -177,14 +177,14 @@ jobs:
           node-version: "24"
           cache: npm
 
-      - name: Set up npm 11.14.1
-        run: npm install --global npm@11.14.1
+      - name: Set up npm 11.15.0
+        run: npm install --global npm@11.15.0
 
       - name: Install dependencies
         run: npm ci
 
       - name: Download build outputs
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: dist
           path: dist
