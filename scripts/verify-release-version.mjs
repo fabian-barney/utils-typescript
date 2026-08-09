@@ -14,7 +14,7 @@ const expectedVersion = tagRef.slice(1);
 const readJson = async (relativePath) => JSON.parse(await readFile(path.resolve(relativePath), "utf8"));
 const packageJson = await readJson("package.json");
 const lockfile = await readJson("package-lock.json");
-const changelog = await readFile(path.resolve("CHANGELOG.md"), "utf8");
+const changelog = (await readFile(path.resolve("CHANGELOG.md"), "utf8")).replace(/\r\n/g, "\n");
 
 function assertVersion(label, actualVersion) {
   if (actualVersion !== expectedVersion) {
@@ -26,8 +26,10 @@ assertVersion("package.json", packageJson.version);
 assertVersion("package-lock.json", lockfile.version);
 assertVersion('package-lock.json packages[""]', lockfile.packages?.[""]?.version);
 
-const escapedVersion = expectedVersion.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&");
-const changelogSectionPattern = new RegExp(`^## \\[${escapedVersion}\\](?: - \\d{4}-\\d{2}-\\d{2})?$`, "m");
-if (!changelogSectionPattern.test(changelog)) {
+const sectionHeader = `## [${expectedVersion}]`;
+const hasChangelogSection = changelog
+  .split("\n")
+  .some((line) => line === sectionHeader || line.startsWith(`${sectionHeader} - `));
+if (!hasChangelogSection) {
   throw new Error(`CHANGELOG.md does not contain a section for ${expectedVersion}.`);
 }
