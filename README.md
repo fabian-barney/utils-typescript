@@ -12,7 +12,8 @@ It includes:
 
 ## Requirements
 
-- Node.js 24 or newer
+- Node.js 24 or newer to run the published package
+- Node.js 24.11 or newer to install and run the build tooling
 - npm 11 or newer
 
 ## Build and Test
@@ -21,11 +22,15 @@ It includes:
 npm ci
 npm run typecheck
 npm run build
+npm run verify-build-outputs
 npm test
 npm run cognitive-typescript-check
 npm run crap-typescript-check
 npm pack --json --dry-run --ignore-scripts
 ```
+
+The published package keeps a Node.js `>=24` runtime floor. The `tsdown`
+development build tool requires Node.js 24.11 or newer.
 
 `npm run cognitive-typescript-check` runs the repository through the published
 `@barney-media/cognitive-typescript` gate for the sources under `src/`.

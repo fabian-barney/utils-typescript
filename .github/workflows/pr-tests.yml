@@ -117,6 +117,9 @@ jobs:
           name: dist
           path: dist
 
+      - name: Check build outputs
+        run: npm run verify-build-outputs
+
       - name: Check package contents
         run: npm pack --json --dry-run --ignore-scripts
 

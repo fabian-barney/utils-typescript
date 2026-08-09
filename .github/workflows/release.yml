@@ -43,6 +43,9 @@ jobs:
       - name: Build package
         run: npm run build
 
+      - name: Check build outputs
+        run: npm run verify-build-outputs
+
       - name: Run tests
         run: npm test
 
