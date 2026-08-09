@@ -119,12 +119,10 @@ jobs:
           path: release-artifacts
 
       - name: Publish package
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
           version="${GITHUB_REF_NAME#v}"
-          npm publish "./release-artifacts/barney-media-utils-typescript-${version}.tgz" --provenance --access public
+          npm publish "./release-artifacts/barney-media-utils-typescript-${version}.tgz" --access public
 
   finalize:
     name: Finalize GitHub Release
