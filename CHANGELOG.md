@@ -8,6 +8,12 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 - No unreleased changes.
 
+## [0.0.2] - 2026-08-09
+
+### Maintenance
+
+- Validated automated public npm publication through GitHub Actions Trusted Publishing and OIDC.
+
 ## [0.0.1] - 2026-08-09
 
 ### Added
