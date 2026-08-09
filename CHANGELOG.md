@@ -22,3 +22,7 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 - Added `ByteUnit` and `BitUnit` conversions across binary and decimal storage and transfer units.
 - Added cross-conversion helpers and configurable bits-per-byte support.
 - Added ESM, CommonJS, and TypeScript declaration build artifacts.
+
+[unreleased]: https://github.com/fabian-barney/utils-typescript/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.2
+[0.0.1]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.1
