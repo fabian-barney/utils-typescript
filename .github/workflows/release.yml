@@ -147,8 +147,25 @@ jobs:
         run: |
           set -euo pipefail
           version="${GITHUB_REF_NAME#v}"
-          published="$(npm view "@barney-media/utils-typescript@${version}" version)"
-          test "${published}" = "${version}"
+          package="@barney-media/utils-typescript"
+          last_output="npm view produced no output."
+          for attempt in {1..10}; do
+            view_status=0
+            view_output="$(npm view "${package}@${version}" version 2>&1)" || view_status=$?
+            if [ "${view_status}" -eq 0 ] && [ "${view_output}" = "${version}" ]; then
+              exit 0
+            fi
+
+            last_output="${view_output}"
+            echo "${package}@${version} is not visible in the npm registry yet (attempt ${attempt}/10)."
+            if [ "${attempt}" -lt 10 ]; then
+              sleep 15
+            fi
+          done
+
+          echo "${package}@${version} was not visible in the npm registry after 10 attempts." >&2
+          printf 'Last npm view output:\n%s\n' "${last_output}" >&2
+          exit 1
 
       - name: Publish GitHub release
         env:
