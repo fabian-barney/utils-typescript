@@ -10,7 +10,7 @@ const outputFiles = [
 
 for (const outputFile of outputFiles) {
   if (!existsSync(outputFile)) {
-    throw new Error(`Expected build output is missing: ${outputFile.pathname}`);
+    throw new Error(`Expected build output is missing: ${outputFile}`);
   }
 }
 
