@@ -36,20 +36,21 @@
     "url": "https://github.com/fabian-barney/utils-typescript/issues"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "build": "tsdown",
     "crap-typescript-check": "vitest run --config vitest.crap.config.ts",
     "cognitive-typescript-check": "node ./scripts/run-cognitive-typescript-gate.mjs src",
     "prepack": "npm run build",
     "test": "vitest run --coverage.enabled true",
     "typecheck": "tsc --noEmit",
+    "verify-build-outputs": "node ./scripts/verify-build-outputs.mjs",
     "render-release-notes": "node ./scripts/render-release-notes.mjs",
     "verify-release-version": "node ./scripts/verify-release-version.mjs"
   },
   "devDependencies": {
     "@barney-media/crap-typescript-vitest": "^0.4.2",
     "@vitest/coverage-v8": "^4.1.10",
-    "tsup": "^8.5.1",
-    "typescript": "^6.0.3",
+    "tsdown": "^0.22.14",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.10"
   }
 }
