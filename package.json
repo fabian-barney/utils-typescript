@@ -41,7 +41,9 @@
     "cognitive-typescript-check": "node ./scripts/run-cognitive-typescript-gate.mjs src",
     "prepack": "npm run build",
     "test": "vitest run --coverage.enabled true",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "render-release-notes": "node ./scripts/render-release-notes.mjs",
+    "verify-release-version": "node ./scripts/verify-release-version.mjs"
   },
   "devDependencies": {
     "@barney-media/crap-typescript-vitest": "^0.4.2",
