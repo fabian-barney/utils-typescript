@@ -8,6 +8,12 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 - No unreleased changes.
 
+## [0.0.3] - 2026-08-29
+
+### Maintenance
+
+- Updated `vitest` and `@vitest/coverage-v8` from 4.1.10 to 4.1.11.
+
 ## [0.0.2] - 2026-08-09
 
 ### Maintenance
@@ -23,6 +29,7 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 - Added cross-conversion helpers and configurable bits-per-byte support.
 - Added ESM, CommonJS, and TypeScript declaration build artifacts.
 
-[unreleased]: https://github.com/fabian-barney/utils-typescript/compare/v0.0.2...HEAD
+[unreleased]: https://github.com/fabian-barney/utils-typescript/compare/v0.0.3...HEAD
+[0.0.3]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.3
 [0.0.2]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.2
 [0.0.1]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.1
