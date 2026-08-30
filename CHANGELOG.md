@@ -8,7 +8,7 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 - No unreleased changes.
 
-## [0.0.4] - 2026-08-31
+## [0.0.4] - 2026-08-30
 
 ### Maintenance
 
