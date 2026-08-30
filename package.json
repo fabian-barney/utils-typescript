@@ -1,6 +1,6 @@
 {
   "name": "@barney-media/utils-typescript",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "TypeScript utility classes for converting storage and transfer units across byte- and bit-based scales.",
   "license": "Apache-2.0",
   "author": "Fabian Barney",
