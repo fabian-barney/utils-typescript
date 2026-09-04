@@ -8,6 +8,12 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 - No unreleased changes.
 
+## [0.0.5] - 2026-09-05
+
+### Maintenance
+
+- Updated `@barney-media/crap-typescript-vitest` from 0.5.0 to 0.5.1 for development and quality validation.
+
 ## [0.0.4] - 2026-08-30
 
 ### Maintenance
@@ -37,7 +43,8 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 - Added cross-conversion helpers and configurable bits-per-byte support.
 - Added ESM, CommonJS, and TypeScript declaration build artifacts.
 
-[unreleased]: https://github.com/fabian-barney/utils-typescript/compare/v0.0.4...HEAD
+[unreleased]: https://github.com/fabian-barney/utils-typescript/compare/v0.0.5...HEAD
+[0.0.5]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.5
 [0.0.4]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.4
 [0.0.3]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.3
 [0.0.2]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.2
