@@ -25,6 +25,11 @@
     "access": "public"
   },
   "packageManager": "npm@11.15.0",
+  "overrides": {
+    "@barney-media/crap-typescript-core": {
+      "@toon-format/toon": "2.3.1"
+    }
+  },
   "engines": {
     "node": ">=24"
   },
