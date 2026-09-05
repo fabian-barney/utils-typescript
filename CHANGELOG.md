@@ -6,7 +6,10 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 ## [Unreleased]
 
-- No unreleased changes.
+### Security
+
+- Pinned transitive `@toon-format/toon` to `2.3.1` within
+  `@barney-media/crap-typescript-core` while awaiting a compatible published release.
 
 ## [0.0.4] - 2026-08-30
 
