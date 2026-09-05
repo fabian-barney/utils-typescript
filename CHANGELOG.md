@@ -8,8 +8,8 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 ### Security
 
-- Pinned transitive `@toon-format/toon` to `2.3.1` to resolve the high-severity
-  dependency advisory while awaiting a compatible published `crap-typescript` release.
+- Pinned transitive `@toon-format/toon` to `2.3.1` within
+  `@barney-media/crap-typescript-core` while awaiting a compatible published release.
 
 ## [0.0.4] - 2026-08-30
 
