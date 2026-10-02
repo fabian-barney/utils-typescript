@@ -8,6 +8,12 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 
 - No unreleased changes.
 
+## [0.0.7] - 2026-10-03
+
+### Maintenance
+
+- Updated the CRAP Vitest adapter and core from 0.5.2 to stable 1.0.0 without changing runtime APIs.
+
 ## [0.0.6] - 2026-09-12
 
 ### Maintenance
@@ -49,10 +55,12 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
 - Added cross-conversion helpers and configurable bits-per-byte support.
 - Added ESM, CommonJS, and TypeScript declaration build artifacts.
 
-[unreleased]: https://github.com/fabian-barney/utils-typescript/compare/v0.0.6...HEAD
+[unreleased]: https://github.com/fabian-barney/utils-typescript/compare/v0.0.7...HEAD
 [0.0.6]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.6
 [0.0.5]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.5
 [0.0.4]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.4
 [0.0.3]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.3
 [0.0.2]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.2
 [0.0.1]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.1
+
+[0.0.7]: https://github.com/fabian-barney/utils-typescript/releases/tag/v0.0.7
