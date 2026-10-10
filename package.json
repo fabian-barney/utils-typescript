@@ -26,6 +26,7 @@
   },
   "packageManager": "npm@11.15.0",
   "overrides": {
+    "source-map-js": "^1.2.2",
     "@barney-media/crap-typescript-core": {
       "@toon-format/toon": "2.3.1"
     }
