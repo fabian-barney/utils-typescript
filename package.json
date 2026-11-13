@@ -24,12 +24,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "npm@11.15.0",
+  "packageManager": "npm@11.21.1",
   "overrides": {
-    "source-map-js": "^1.2.2",
-    "@barney-media/crap-typescript-core": {
-      "@toon-format/toon": "2.3.1"
-    }
+    "source-map-js": "^1.2.2"
   },
   "engines": {
     "node": ">=24"
