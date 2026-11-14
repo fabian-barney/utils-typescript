@@ -27,11 +27,11 @@ jobs:
       - name: Set up Node 24
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: "24.22.3"
           cache: npm
 
-      - name: Set up npm 11.21.1
-        run: npm install --global npm@11.21.1
+      - name: Set up npm 11.21.2
+        run: npm install --global npm@11.21.2
 
       - name: Install dependencies
         run: npm ci
@@ -63,11 +63,11 @@ jobs:
       - name: Set up Node 24
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: "24.22.3"
           cache: npm
 
-      - name: Set up npm 11.21.1
-        run: npm install --global npm@11.21.1
+      - name: Set up npm 11.21.2
+        run: npm install --global npm@11.21.2
 
       - name: Install dependencies
         run: npm ci
@@ -102,11 +102,11 @@ jobs:
       - name: Set up Node 24
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: "24.22.3"
           cache: npm
 
-      - name: Set up npm 11.21.1
-        run: npm install --global npm@11.21.1
+      - name: Set up npm 11.21.2
+        run: npm install --global npm@11.21.2
 
       - name: Install dependencies
         run: npm ci
@@ -138,11 +138,11 @@ jobs:
       - name: Set up Node 24
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: "24.22.3"
           cache: npm
 
-      - name: Set up npm 11.21.1
-        run: npm install --global npm@11.21.1
+      - name: Set up npm 11.21.2
+        run: npm install --global npm@11.21.2
 
       - name: Install dependencies
         run: npm ci
@@ -177,11 +177,11 @@ jobs:
       - name: Set up Node 24
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: "24.22.3"
           cache: npm
 
-      - name: Set up npm 11.21.1
-        run: npm install --global npm@11.21.1
+      - name: Set up npm 11.21.2
+        run: npm install --global npm@11.21.2
 
       - name: Install dependencies
         run: npm ci
