@@ -22,7 +22,7 @@ jobs:
       - name: Set up Node 24
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: "24.22.3"
           cache: npm
 
       - name: Set up npm 11.21.2
@@ -109,7 +109,7 @@ jobs:
       - name: Set up Node 24
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: "24.22.3"
           registry-url: "https://registry.npmjs.org"
 
       - name: Set up npm 11.21.2
@@ -138,7 +138,7 @@ jobs:
       - name: Set up Node 24
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: "24.22.3"
           registry-url: "https://registry.npmjs.org"
 
       - name: Set up npm 11.21.2
