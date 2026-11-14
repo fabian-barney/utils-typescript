@@ -12,6 +12,7 @@ The format is based on Keep a Changelog and this project adheres to Semantic Ver
   removing the temporary TOON 2.3.1 override.
 - Updated tsdown to 0.23.4 while preserving ESM, CommonJS, and declaration outputs.
 - Updated Vitest and its V8 coverage provider together to 5.1.0 and grouped future Vitest-family updates.
+- Updated npm to 11.21.2 and pinned CI and release build tooling to Node.js 24.22.3.
 
 ## [0.0.4] - 2026-08-30
 
