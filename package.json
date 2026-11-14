@@ -26,10 +26,7 @@
   },
   "packageManager": "npm@11.21.1",
   "overrides": {
-    "source-map-js": "^1.2.2",
-    "@barney-media/crap-typescript-core": {
-      "@toon-format/toon": "2.3.1"
-    }
+    "source-map-js": "^1.2.2"
   },
   "engines": {
     "node": ">=24"
@@ -53,10 +50,10 @@
     "verify-release-version": "node ./scripts/verify-release-version.mjs"
   },
   "devDependencies": {
-    "@barney-media/crap-typescript-vitest": "^1.0.0",
-    "@vitest/coverage-v8": "^4.1.12",
+    "@barney-media/crap-typescript-vitest": "^2.0.0",
+    "@vitest/coverage-v8": "^5.1.0",
     "tsdown": "^0.23.4",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.12"
+    "vitest": "^5.1.0"
   }
 }
