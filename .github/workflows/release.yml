@@ -25,8 +25,8 @@ jobs:
           node-version: "24.22.3"
           cache: npm
 
-      - name: Set up npm 11.21.2
-        run: npm install --global npm@11.21.2
+      - name: Set up npm 11.21.3
+        run: npm install --global npm@11.21.3
 
       - name: Install dependencies
         run: npm ci
@@ -112,8 +112,8 @@ jobs:
           node-version: "24.22.3"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Set up npm 11.21.2
-        run: npm install --global npm@11.21.2
+      - name: Set up npm 11.21.3
+        run: npm install --global npm@11.21.3
 
       - name: Download publish artifacts
         uses: actions/download-artifact@v8
@@ -141,8 +141,8 @@ jobs:
           node-version: "24.22.3"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Set up npm 11.21.2
-        run: npm install --global npm@11.21.2
+      - name: Set up npm 11.21.3
+        run: npm install --global npm@11.21.3
 
       - name: Verify published package version
         run: |
